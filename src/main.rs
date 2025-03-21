@@ -217,5 +217,11 @@ fn main() {
     log(&format!("Opened file: {:?}", path));
 
     let global_header = reader.read_global_header().expect("Error occurred during parsing global header.");
-    log(&format!("Parsed global header {:#?}", global_header))
+    log(&format!("Parsed global header {:#?}", global_header));
+
+    while let Ok(packet) = reader.read_next_packet() {
+        log(&format!("Read a packet length={:}, ts={:}", packet.pack_header.incl_len - 40, packet.pack_header.ts_sec))
+    }
+
+    log(&format!("End reading"));
 }
